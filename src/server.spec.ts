@@ -2,13 +2,12 @@ import express from 'express';
 import tape from 'tape';
 import http from 'http';
 
-import * as testedModule from './main';
+import * as testedModule from './server';
 
 tape(
-  `Main.ts:
+  `server.ts createServer():
   GIVEN a port
-  AND a valid host
-  WHEN calling createServer()`,
+  AND a valid host`,
   (test: tape.Test) => {
     return testedModule
       .createServer({

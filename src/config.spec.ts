@@ -1,6 +1,6 @@
 import tape from 'tape';
+
 import * as testedModule from './config';
-import { IConfig } from './main';
 
 tape(
   `
@@ -226,7 +226,7 @@ GIVEN a config object
 AND all mandtory properties are present
 `,
   (test: tape.Test) => {
-    const validConfig: IConfig = {
+    const validConfig: testedModule.IConfig = {
       host: 'foo',
       port: 3000,
     };

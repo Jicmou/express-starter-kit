@@ -4,8 +4,11 @@
   "description": "Little app to animate an extreme quotation workshop with a remote team",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -rf dist",
     "launch": "node dist/index.js --config environment-template.json",
     "lint": "tslint --config ./tslint.json --project ./tsconfig.json && tsc",
+    "prestart": "npm run clean",
+    "pretest": "npm run clean",
     "start": "npm run lint && npm run launch",
     "start:watch": "chokidar src/**/*.ts --initial -c 'npm run start'",
     "tape": "tape ./dist/**/*.spec.js | tap-spec",

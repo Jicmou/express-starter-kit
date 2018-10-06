@@ -1,6 +1,10 @@
 import path from 'path';
 import { readFile } from 'mz/fs';
-import { IConfig } from './main';
+
+export interface IConfig {
+  port: number;
+  host: string;
+}
 
 export type Argv = string[];
 
