@@ -1,6 +1,6 @@
-import * as configModule from './config';
-import { startServer } from './server';
 import * as types from './deps.type';
+import { getConfig } from './config';
+import { startServer } from './server';
 
 export interface IMainDeps {
   express: types.IExpress;
@@ -12,13 +12,6 @@ interface IExitDeps {
   logger: types.IErrorLogger;
   process: types.IProcessExit;
 }
-
-const getConfig = (process: types.Process) =>
-  configModule.getConfigFromJSONFile(
-    configModule.getAbsoluteConfigPath(process.cwd())(
-      configModule.getConfigFilePathFormArgv(process.argv),
-    ),
-  );
 
 const exitWithFatalError = (deps: IExitDeps) => (error: any) => {
   deps.logger.error('FATAL ERROR: ', error);

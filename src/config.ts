@@ -1,6 +1,8 @@
 import path from 'path';
 import { readFile } from 'mz/fs';
 
+import { IProcessArgv, IProcessCwd } from './deps.type';
+
 export interface IConfig {
   port: number;
   host: string;
@@ -49,3 +51,12 @@ export const getConfigFromJSONFile = (filePath: string) =>
   readFile(filePath, 'utf-8')
     .then(JSON.parse)
     .then(validateConfigObject);
+
+type Process = IProcessArgv & IProcessCwd;
+
+export const getConfig = (process: Process) =>
+  getConfigFromJSONFile(
+    getAbsoluteConfigPath(process.cwd())(
+      getConfigFilePathFormArgv(process.argv),
+    ),
+  );
