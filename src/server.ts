@@ -1,10 +1,10 @@
 import { AddressInfo } from 'net';
 import { IConfig } from './config';
-import { ILogger, IServer, IMainDeps } from './main';
+import { Logger, IServer, IMainDeps } from './main';
 import { Server } from 'http';
 
 interface ICreateServerDeps {
-  logger: ILogger;
+  logger: Logger;
   server: IServer;
 }
 
@@ -34,7 +34,7 @@ const getServerAdressAsString = (server: {
     : (serverAdress as string);
 };
 
-const logSuccessListening = (logger: ILogger) => (server: {
+const logSuccessListening = (logger: Logger) => (server: {
   address: () => AddressInfo | string;
 }) => {
   logger.log(`server listening on ${getServerAdressAsString(server)}`);

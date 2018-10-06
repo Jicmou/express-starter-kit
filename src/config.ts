@@ -6,6 +6,11 @@ export interface IConfig {
   host: string;
 }
 
+interface IMaybeConfig {
+  host?: string;
+  port?: number;
+}
+
 export type Argv = string[];
 
 const VALID_CONFIG_FILE_PATH = /.json$/;
@@ -32,11 +37,6 @@ export const getAbsoluteConfigPath = (directory: string) => (
   }
   return path.isAbsolute(filePath) ? filePath : path.join(directory, filePath);
 };
-
-interface IMaybeConfig {
-  host?: string;
-  port?: number;
-}
 
 export const validateConfigObject = (maybeConfig: IMaybeConfig) => {
   if (!(maybeConfig.host && maybeConfig.port)) {

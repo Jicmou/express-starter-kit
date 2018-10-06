@@ -2,43 +2,64 @@ import { Server } from 'http';
 import * as configModule from './config';
 import { startServer } from './server';
 
-type ProcessArgv = string[];
-type ProcessExit = (code?: number) => never;
-type ProcessCwd = () => string;
+type Argv = string[];
+type Exit = (code?: number) => never;
+type Cwd = () => string;
 
-interface IProcess {
-  argv: ProcessArgv;
-  exit: ProcessExit;
-  cwd: ProcessCwd;
+interface IProcessArgv {
+  argv: Argv;
+}
+interface IProcessExit {
+  exit: Exit;
 }
 
-export interface ILogger {
-  error: (...error: any[]) => void;
-  log: (...message: any[]) => void;
+interface IProcessCwd {
+  cwd: Cwd;
 }
+
+type Process = IProcessArgv & IProcessCwd & IProcessExit;
+
+type LogError = (...error: any[]) => void;
+type Log = (...message: any[]) => void;
+
+export interface IErrorLogger {
+  error: LogError;
+}
+export interface ILogLogger {
+  log: Log;
+}
+
+export type Logger = IErrorLogger & ILogLogger;
+
+type ListenServer = (
+  port: number,
+  hostname: string,
+  callback?: (error: any) => void,
+) => Server;
 
 export interface IServer {
-  listen(
-    port: number,
-    hostname: string,
-    callback?: (error: any) => void,
-  ): Server;
+  listen: ListenServer;
 }
 
 export interface IMainDeps {
-  logger: ILogger;
+  logger: Logger;
   server: IServer;
-  process: IProcess;
+  process: Process;
 }
 
-const getConfig = (process: IProcess) =>
+const getConfig = (process: Process) =>
   configModule.getConfigFromJSONFile(
     configModule.getAbsoluteConfigPath(process.cwd())(
       configModule.getConfigFilePathFormArgv(process.argv),
     ),
   );
 
-const exitWithFatalError = (deps: IMainDeps) => (error: any) => {
+interface IExitDeps {
+  logger: IErrorLogger;
+  process: IProcessExit;
+}
+
+const exitWithFatalError = (deps: IExitDeps) => (error: any) => {
   deps.logger.error('FATAL ERROR: ', error);
   return deps.process.exit(1);
 };
