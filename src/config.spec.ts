@@ -1,5 +1,6 @@
 import tape from 'tape';
 import * as testedModule from './config';
+import { IConfig } from './main';
 
 tape(
   `
@@ -95,6 +96,144 @@ tape(
     test.throws(
       () => testedModule.getConfigFilePathFormArgv(argv),
       'THEN it SHOULD throw an error',
+    );
+    test.end();
+  },
+);
+
+tape(
+  `
+  config.ts:
+  getAbsoluteConfigPath(),
+  GIVEN an absolute directory path
+  AND an empty string as file path
+`,
+  (test: tape.Test) => {
+    test.throws(
+      () => testedModule.getAbsoluteConfigPath('/foo')(''),
+      'THEN it SHOULD throw an error',
+    );
+    test.end();
+  },
+);
+
+tape(
+  `
+  config.ts:
+  getAbsoluteConfigPath(),
+  GIVEN an absolute directory path
+  AND an absolute file path
+`,
+  (test: tape.Test) => {
+    test.equals(
+      testedModule.getAbsoluteConfigPath('/foo')('/bar/baz.json'),
+      '/bar/baz.json',
+      'THEN it SHOULD return the absolute file path as is.',
+    );
+    test.end();
+  },
+);
+
+tape(
+  `
+  config.ts:
+  getAbsoluteConfigPath(),
+  GIVEN an absolute directory path
+  AND a file name
+`,
+  (test: tape.Test) => {
+    test.equals(
+      testedModule.getAbsoluteConfigPath('/foo')('baz.json'),
+      '/foo/baz.json',
+      'THEN it SHOULD join the directory path with the file name.',
+    );
+    test.end();
+  },
+);
+
+tape(
+  `
+  config.ts:
+  getAbsoluteConfigPath(),
+  GIVEN a relative directory path
+  AND a file name
+`,
+  (test: tape.Test) => {
+    test.throws(
+      () => testedModule.getAbsoluteConfigPath('foo')('baz.json'),
+      'THEN it SHOULD throw an error',
+    );
+    test.end();
+  },
+);
+
+tape(
+  `
+  config.ts:
+  getAbsoluteConfigPath(),
+  GIVEN an absolute directory path
+  AND a relative file path
+`,
+  (test: tape.Test) => {
+    test.equals(
+      testedModule.getAbsoluteConfigPath('/foo/bar')('../baz.json'),
+      '/foo/baz.json',
+      'THEN it SHOULD join the directory path with the file name.',
+    );
+    test.end();
+  },
+);
+
+tape(
+  `
+config.ts:
+validateConfigObject(),
+GIVEN an empty object
+`,
+  (test: tape.Test) => {
+    test.throws(
+      () => testedModule.validateConfigObject({}),
+      'THEN it SHOULD throw an error',
+    );
+    test.end();
+  },
+);
+
+tape(
+  `
+config.ts:
+validateConfigObject(),
+GIVEN a config object
+AND host property is missing
+`,
+  (test: tape.Test) => {
+    test.throws(
+      () =>
+        testedModule.validateConfigObject({
+          port: 3000,
+        }),
+      'THEN it SHOULD throw an error',
+    );
+    test.end();
+  },
+);
+
+tape(
+  `
+config.ts:
+validateConfigObject(),
+GIVEN a config object
+AND all mandtory properties are present
+`,
+  (test: tape.Test) => {
+    const validConfig: IConfig = {
+      host: 'foo',
+      port: 3000,
+    };
+    test.equals(
+      testedModule.validateConfigObject(validConfig),
+      validConfig,
+      'THEN it SHOULD return the config',
     );
     test.end();
   },

@@ -1,3 +1,7 @@
+import path from 'path';
+import { readFile } from 'mz/fs';
+import { IConfig } from './main';
+
 export type Argv = string[];
 
 const VALID_CONFIG_FILE_PATH = /.json$/;
@@ -12,3 +16,32 @@ export const getConfigFilePathFormArgv = (argv: Argv) => {
   }
   return configFilePathList[0];
 };
+
+export const getAbsoluteConfigPath = (directory: string) => (
+  filePath: string,
+) => {
+  if (!filePath) {
+    throw new Error(`invalid path: ${filePath}`);
+  }
+  if (!path.isAbsolute(directory)) {
+    throw new Error(`invalid directory path: ${directory}`);
+  }
+  return path.isAbsolute(filePath) ? filePath : path.join(directory, filePath);
+};
+
+interface IMaybeConfig {
+  host?: string;
+  port?: number;
+}
+
+export const validateConfigObject = (maybeConfig: IMaybeConfig) => {
+  if (!(maybeConfig.host && maybeConfig.port)) {
+    throw new Error(`invalid config Object: ${maybeConfig}`);
+  }
+  return maybeConfig as IConfig;
+};
+
+export const getConfigFromJSONFile = (filePath: string) =>
+  readFile(filePath, 'utf-8')
+    .then(JSON.parse)
+    .then(validateConfigObject);

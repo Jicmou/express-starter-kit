@@ -1,7 +1,18 @@
 import { Server } from 'http';
 import { AddressInfo } from 'net';
+import * as configModule from './config';
 
-interface IConfig {
+type ProcessArgv = string[];
+type ProcessExit = (code?: number) => never;
+type ProcessCwd = () => string;
+
+interface IProcess {
+  argv: ProcessArgv;
+  exit: ProcessExit;
+  cwd: ProcessCwd;
+}
+
+export interface IConfig {
   port: number;
   host: string;
 }
@@ -27,6 +38,7 @@ interface ICreateServerDeps {
 interface IMainDeps {
   logger: ILogger;
   server: IServer;
+  process: IProcess;
 }
 
 export const createServer = (deps: ICreateServerDeps) => ({
@@ -61,5 +73,22 @@ const logSuccessListening = (logger: ILogger) => (server: {
   logger.log(`server listening on ${getServerAdressAsString(server)}`);
 };
 
-export const main = (deps: IMainDeps) => (config: IConfig) =>
+const getConfig = (process: IProcess) =>
+  configModule.getConfigFromJSONFile(
+    configModule.getAbsoluteConfigPath(process.cwd())(
+      configModule.getConfigFilePathFormArgv(process.argv),
+    ),
+  );
+
+const startServer = (deps: IMainDeps) => (config: IConfig) =>
   createServer(deps)(config).then(logSuccessListening(deps.logger));
+
+const exitWithFatalError = (deps: IMainDeps) => (error: any) => {
+  deps.logger.error('FATAL ERROR: ', error);
+  return deps.process.exit(1);
+};
+
+export const main = (deps: IMainDeps) =>
+  getConfig(deps.process)
+    .then(startServer(deps))
+    .catch(exitWithFatalError(deps));

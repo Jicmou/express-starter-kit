@@ -3,8 +3,6 @@ import { main } from './main';
 
 main({
   logger: console,
+  process,
   server: express(),
-})({
-  host: 'localhost',
-  port: 3000,
 });
