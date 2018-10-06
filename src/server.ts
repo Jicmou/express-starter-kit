@@ -1,25 +1,15 @@
 import { AddressInfo } from 'net';
 import { IConfig } from './config';
-import { IMainDeps } from './main';
 import { Server } from 'http';
-import { Logger, IServer } from './deps.type';
+import { ILogLogger, IExpress } from './deps.type';
 
-interface ICreateServerDeps {
-  logger: Logger;
-  server: IServer;
-}
-
-export const createServer = (deps: ICreateServerDeps) => ({
-  port,
-  host,
-}: IConfig) => {
+export const createServer = (server: IExpress) => ({ port, host }: IConfig) => {
   return new Promise<Server>((resolve, reject) => {
-    const server = deps.server.listen(port, host, (error: any) => {
+    const httpServer = server.listen(port, host, (error: any) => {
       if (error) {
-        deps.logger.error('AN ERROR OCCURED', error);
         reject(new Error(error));
       }
-      resolve(server);
+      resolve(httpServer);
     });
   });
 };
@@ -35,11 +25,17 @@ const getServerAdressAsString = (server: {
     : (serverAdress as string);
 };
 
-const logSuccessListening = (logger: Logger) => (server: {
+const logSuccessListening = (logger: ILogLogger) => (server: {
   address: () => AddressInfo | string;
 }) => {
   logger.log(`server listening on ${getServerAdressAsString(server)}`);
 };
 
-export const startServer = (deps: IMainDeps) => (config: IConfig) =>
-  createServer(deps)(config).then(logSuccessListening(deps.logger));
+interface IStartServerDeps {
+  express: IExpress;
+  logger: ILogLogger;
+}
+
+export const startServer = ({ express, logger }: IStartServerDeps) => (
+  config: IConfig,
+) => createServer(express)(config).then(logSuccessListening(logger));

@@ -3,8 +3,8 @@ import { startServer } from './server';
 import * as types from './deps.type';
 
 export interface IMainDeps {
+  express: types.IExpress;
   logger: types.Logger;
-  server: types.IServer;
   process: types.Process;
 }
 

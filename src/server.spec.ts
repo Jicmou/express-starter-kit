@@ -10,10 +10,7 @@ tape(
   AND a valid host`,
   (test: tape.Test) => {
     return testedModule
-      .createServer({
-        logger: console,
-        server: express(),
-      })({ host: 'localhost', port: 1234 })
+      .createServer(express())({ host: 'localhost', port: 1234 })
       .then((result: http.Server) => {
         test.assert(
           result instanceof http.Server,

@@ -35,6 +35,6 @@ export type ListenServer = (
   callback?: (error: any) => void,
 ) => Server;
 
-export interface IServer {
+export interface IExpress {
   listen: ListenServer;
 }
