@@ -1,0 +1,37 @@
+{
+  "name": "extreme-quotation",
+  "version": "0.1.0",
+  "description": "Little app to animate an extreme quotation workshop with a remote team",
+  "main": "index.js",
+  "scripts": {
+    "launch": "node dist/index.js --port 3000 --host localhost",
+    "lint": "tslint --config ./tslint.json --project ./tsconfig.json && tsc",
+    "start": "npm run lint && npm run launch",
+    "start:watch": "chokidar src/**/*.ts -c 'npm run start'",
+    "tape": "tape ./dist/**/*.spec.js",
+    "test": "npm run lint && npm run tape",
+    "tdd": "chokidar src/**/*.ts -c 'npm run test'"
+  },
+  "keywords": [
+    "scrum",
+    "extreme-quotation"
+  ],
+  "author": "Jicmou",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "3.5.2",
+    "express": "4.16.3",
+    "socket.io": "2.1.1"
+  },
+  "devDependencies": {
+    "@types/bluebird": "3.5.24",
+    "@types/express": "4.16.0",
+    "@types/socket.io": "1.4.38",
+    "@types/tape": "4.2.32",
+    "chokidar-cli": "1.2.1",
+    "tap-dot": "2.0.0",
+    "tape": "4.9.1",
+    "tslint": "5.11.0",
+    "typescript": "3.1.1"
+  }
+}
