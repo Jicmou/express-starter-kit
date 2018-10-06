@@ -10,7 +10,6 @@ tape(
   AND a valid host
   WHEN calling createServer()`,
   (test: tape.Test) => {
-    console.log('ENTERIG TEST');
     return testedModule
       .createServer({
         logger: console,
