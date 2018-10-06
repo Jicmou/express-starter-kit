@@ -1,7 +1,8 @@
 import { AddressInfo } from 'net';
 import { IConfig } from './config';
-import { Logger, IServer, IMainDeps } from './main';
+import { IMainDeps } from './main';
 import { Server } from 'http';
+import { Logger, IServer } from './deps.type';
 
 interface ICreateServerDeps {
   logger: Logger;
