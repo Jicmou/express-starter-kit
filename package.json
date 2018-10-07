@@ -36,7 +36,7 @@
     "@types/tape": "4.2.32",
     "chokidar-cli": "1.2.1",
     "nyc": "13.0.1",
-    "tap-nyc": "^1.0.3",
+    "tap-nyc": "1.0.3",
     "tap-spec": "5.0.0",
     "tape": "4.9.1",
     "tslint": "5.11.0",
