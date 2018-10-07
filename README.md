@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Jicmou/extreme-quotation.svg?branch=master)](https://travis-ci.org/Jicmou/extreme-quotation)
+
 # Extreme Quotation
 
 Little app to animate an extreme quotation workshop with a remote team
