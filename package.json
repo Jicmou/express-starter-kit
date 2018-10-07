@@ -11,7 +11,7 @@
     "pretest": "npm run clean",
     "start": "npm run lint && npm run launch",
     "start:watch": "chokidar src/**/*.ts --initial -c 'npm run start'",
-    "tape": "tape ./dist/**/*.spec.js | tap-spec",
+    "tape": "nyc tape ./dist/**/*.spec.js | tap-spec",
     "test": "npm run lint && npm run tape",
     "tdd": "chokidar src/**/*.ts --initial -c 'npm run test'"
   },
@@ -34,6 +34,7 @@
     "@types/socket.io": "1.4.38",
     "@types/tape": "4.2.32",
     "chokidar-cli": "1.2.1",
+    "nyc": "13.0.1",
     "tap-spec": "5.0.0",
     "tape": "4.9.1",
     "tslint": "5.11.0",
