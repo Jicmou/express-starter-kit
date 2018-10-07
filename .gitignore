@@ -1,3 +1,7 @@
+# compiled output
+.nyc_output
+coverage/
 dist/
+
+# dependencies
 node_modules/
-.nyc*
