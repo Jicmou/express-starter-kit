@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "coverage": "nyc report | tap-nyc",
     "launch": "node dist/index.js --config environment-template.json",
     "lint": "tslint --config ./tslint.json --project ./tsconfig.json && tsc",
     "prestart": "npm run clean",
@@ -37,6 +37,7 @@
     "chokidar-cli": "1.2.1",
     "codecov": "3.1.0",
     "nyc": "13.0.1",
+    "tap-nyc": "^1.0.3",
     "tap-spec": "5.0.0",
     "tape": "4.9.1",
     "tslint": "5.11.0",
