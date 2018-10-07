@@ -1,6 +1,6 @@
 import * as types from './deps.type';
-import { getConfig } from './config';
-import { startServer } from './server';
+import { getConfig } from './config/config';
+import { startServer } from './server/server';
 
 export interface IMainDeps {
   express: types.IExpress;

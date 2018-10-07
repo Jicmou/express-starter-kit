@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { IProcessArgv, IProcessCwd, ReadFile } from './deps.type';
+import { IProcessArgv, IProcessCwd, ReadFile } from '../deps.type';
 
 export interface IConfig {
   port: number;

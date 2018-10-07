@@ -1,7 +1,7 @@
 import { AddressInfo } from 'net';
-import { IConfig } from './config';
+import { IConfig } from '../config/config';
 import { Server } from 'http';
-import { ILogLogger, IExpress } from './deps.type';
+import { ILogLogger, IExpress } from '../deps.type';
 
 export const createServer = (server: IExpress) => ({ port, host }: IConfig) => {
   return new Promise<Server>((resolve, reject) => {
