@@ -3,9 +3,7 @@ import tape from 'tape';
 import * as testedModule from './config';
 
 tape(
-  `
-  config.ts:
-  getConfigFilePathFormArgv(),
+  `config.ts: getConfigFilePathFormArgv(),
   GIVEN a list of arguments,
   AND no --config flag in that list
 `,
@@ -20,9 +18,7 @@ tape(
 );
 
 tape(
-  `
-  config.ts:
-  getConfigFilePathFormArgv(),
+  `config.ts: getConfigFilePathFormArgv(),
   GIVEN a list of arguments,
   AND a --config flag in that list
   AND no value for that flag
@@ -38,9 +34,7 @@ tape(
 );
 
 tape(
-  `
-  config.ts:
-  getConfigFilePathFormArgv(),
+  `config.ts: getConfigFilePathFormArgv(),
   GIVEN a list of arguments,
   AND a --config flag in that list
   AND an invalid value for that flag
@@ -56,9 +50,7 @@ tape(
 );
 
 tape(
-  `
-  config.ts:
-  getConfigFilePathFormArgv(),
+  `config.ts: getConfigFilePathFormArgv(),
   GIVEN a list of arguments,
   AND a --config flag in that list
   AND a valid value for that flag
@@ -76,9 +68,7 @@ tape(
 );
 
 tape(
-  `
-  config.ts:
-  getConfigFilePathFormArgv(),
+  `config.ts: getConfigFilePathFormArgv(),
   GIVEN a list of arguments,
   AND 2 --config flags in that list
   AND a valid value for each flag
@@ -102,9 +92,7 @@ tape(
 );
 
 tape(
-  `
-  config.ts:
-  getAbsoluteConfigPath(),
+  `config.ts: getAbsoluteConfigPath(),
   GIVEN an absolute directory path
   AND an empty string as file path
 `,
@@ -118,9 +106,7 @@ tape(
 );
 
 tape(
-  `
-  config.ts:
-  getAbsoluteConfigPath(),
+  `config.ts: getAbsoluteConfigPath(),
   GIVEN an absolute directory path
   AND an absolute file path
 `,
@@ -135,9 +121,7 @@ tape(
 );
 
 tape(
-  `
-  config.ts:
-  getAbsoluteConfigPath(),
+  `config.ts: getAbsoluteConfigPath(),
   GIVEN an absolute directory path
   AND a file name
 `,
@@ -152,9 +136,7 @@ tape(
 );
 
 tape(
-  `
-  config.ts:
-  getAbsoluteConfigPath(),
+  `config.ts: getAbsoluteConfigPath(),
   GIVEN a relative directory path
   AND a file name
 `,
@@ -168,9 +150,7 @@ tape(
 );
 
 tape(
-  `
-  config.ts:
-  getAbsoluteConfigPath(),
+  `config.ts: getAbsoluteConfigPath(),
   GIVEN an absolute directory path
   AND a relative file path
 `,
@@ -185,9 +165,7 @@ tape(
 );
 
 tape(
-  `
-config.ts:
-validateConfigObject(),
+  `config.ts: validateConfigObject(),
 GIVEN an empty object
 `,
   (test: tape.Test) => {
@@ -200,9 +178,7 @@ GIVEN an empty object
 );
 
 tape(
-  `
-config.ts:
-validateConfigObject(),
+  `config.ts: validateConfigObject(),
 GIVEN a config object
 AND host property is missing
 `,
@@ -219,9 +195,7 @@ AND host property is missing
 );
 
 tape(
-  `
-config.ts:
-validateConfigObject(),
+  `config.ts: validateConfigObject(),
 GIVEN a config object
 AND all mandtory properties are present
 `,

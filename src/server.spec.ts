@@ -5,7 +5,7 @@ import http from 'http';
 import * as testedModule from './server';
 
 tape(
-  `server.ts createServer():
+  `server.ts: createServer():
   GIVEN a port
   AND a valid host`,
   (test: tape.Test) => {
