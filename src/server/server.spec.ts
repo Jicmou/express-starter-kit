@@ -4,21 +4,33 @@ import http from 'http';
 
 import * as testedModule from './server';
 
+const closeServer = (server: http.Server) =>
+  new Promise<http.Server>(resolve => server.close(() => resolve(server)));
+
 tape(
-  `server.ts: createServer():
-  GIVEN a port
-  AND a valid host`,
+  `server.ts: startServer()
+  GIVEN an express app
+  AND a valid config`,
   (test: tape.Test) => {
     return testedModule
-      .createServer(express())({ host: 'localhost', port: 1234 })
-      .then((result: http.Server) => {
+      .startServer({
+        express: express(),
+        logger: {
+          // tslint:disable-next-line:no-empty
+          log: () => {},
+        },
+      })({
+        host: 'localhost',
+        port: 3000,
+      })
+      .then((server: any) => {
         test.assert(
-          result instanceof http.Server,
+          server instanceof http.Server,
           'THEN it SHOULD return a Server',
         );
-        return result;
+        return server;
       })
-      .then(server => server.close())
+      .then(closeServer)
       .then(() => test.end());
   },
 );

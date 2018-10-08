@@ -13,16 +13,15 @@ export const createServer = (express: IExpress) => ({
   port,
   host,
 }: IConfig) => {
-  return new Promise<Server>((resolve, reject) => {
-    const httpServer = express.listen(port, host, (error: any) => {
-      if (error) {
-        reject(new Error(error));
-      }
-      resolve(httpServer);
-    });
+  return new Promise<Server>(resolve => {
+    const httpServer = express.listen(port, host, () => resolve(httpServer));
   });
 };
 
 export const startServer = ({ express, logger }: IStartServerDeps) => (
   config: IConfig,
-) => createServer(express)(config).then(logSuccessListening(logger));
+) =>
+  createServer(express)(config).then(server => {
+    logSuccessListening(logger);
+    return server;
+  });
