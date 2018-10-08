@@ -2,6 +2,8 @@ import tape from 'tape';
 import path from 'path';
 
 import * as testedModule from './config';
+import { readFile } from 'mz/fs';
+import * as types from '../deps.type';
 
 tape(
   `config.ts: getConfigFilePathFormArgv(),
@@ -211,5 +213,70 @@ AND all mandtory properties are present
       'THEN it SHOULD return the config',
     );
     test.end();
+  },
+);
+
+tape(
+  `config.ts: getConfigFromJSONFile(),
+  GIVEN a wrong filePath`,
+  (test: tape.Test) => {
+    return testedModule
+      .getConfigFromJSONFile(readFile)('foo.json')
+      .catch((error: any) => {
+        test.assert(error, 'THEN it SHOULD eventually throw an error');
+        test.end();
+      });
+  },
+);
+
+tape(
+  `config.ts: getConfigFromJSONFile(),
+  GIVEN a valid filePath`,
+  (test: tape.Test) => {
+    const mockConfig: testedModule.IConfig = {
+      host: 'foo',
+      port: 1234,
+    };
+    const mockReadFile = () => Promise.resolve(JSON.stringify(mockConfig));
+    return testedModule
+      .getConfigFromJSONFile(mockReadFile)('foo.json')
+      .then(fileContent => {
+        test.deepEquals(
+          fileContent,
+          mockConfig,
+          'THEN it SHOULD eventually return the file content',
+        );
+        test.end();
+      });
+  },
+);
+
+tape(
+  `config.ts: getConfig(),
+  GIVEN a valid config filePath`,
+  (test: tape.Test) => {
+    const mockProcess: types.IProcessArgv & types.IProcessCwd = {
+      argv: ['node', 'index.js', '--config', 'foo.json'],
+      cwd: () => '/foo/bar',
+    };
+    const mockConfig: testedModule.IConfig = {
+      host: 'foo',
+      port: 1234,
+    };
+    const mockReadFile = () => Promise.resolve(JSON.stringify(mockConfig));
+    return testedModule
+      .getConfig({
+        path,
+        process: mockProcess,
+        readFile: mockReadFile,
+      })
+      .then(config => {
+        test.deepEquals(
+          config,
+          mockConfig,
+          'THEN it SHOULD eventually return a config object',
+        );
+        test.end();
+      });
   },
 );
