@@ -1,9 +1,10 @@
-import tape from 'tape';
 import path from 'path';
+import tape from 'tape';
+import { readFile } from 'mz/fs';
+
+import * as types from '../deps.type';
 
 import * as testedModule from './config';
-import { readFile } from 'mz/fs';
-import * as types from '../deps.type';
 
 tape(
   `config.ts: getConfigFilePathFormArgv(),
