@@ -1,11 +1,13 @@
 import * as types from './deps.type';
-import { getConfig } from './config';
-import { startServer } from './server';
+import { getConfig } from './config/config';
+import { startServer } from './server/server';
 
 export interface IMainDeps {
   express: types.IExpress;
   logger: types.Logger;
   process: types.Process;
+  readFile: types.ReadFile;
+  path: types.IPath;
 }
 
 interface IExitDeps {
@@ -18,7 +20,7 @@ const exitWithFatalError = (deps: IExitDeps) => (error: any) => {
   return deps.process.exit(1);
 };
 
-export const main = (deps: IMainDeps) =>
-  getConfig(deps.process)
-    .then(startServer(deps))
-    .catch(exitWithFatalError(deps));
+export const main = ({ express, logger, path, process, readFile }: IMainDeps) =>
+  getConfig({ path, process, readFile })
+    .then(startServer({ express, logger }))
+    .catch(exitWithFatalError({ logger, process }));

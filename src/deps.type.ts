@@ -1,4 +1,5 @@
 import { Server } from 'http';
+import { AddressInfo } from 'net';
 
 type Argv = string[];
 type Exit = (code?: number) => never;
@@ -29,6 +30,10 @@ export interface ILogLogger {
 
 export type Logger = IErrorLogger & ILogLogger;
 
+export interface IServerAddress {
+  address: () => AddressInfo | string;
+}
+
 export type ListenServer = (
   port: number,
   hostname: string,
@@ -37,4 +42,23 @@ export type ListenServer = (
 
 export interface IExpress {
   listen: ListenServer;
+}
+
+type File = string | number | Buffer;
+
+interface IReadFileOptionsObject {
+  encoding: string;
+  flag?: string;
+}
+
+type ReadFileOptions = IReadFileOptionsObject | string;
+
+export type ReadFile = (
+  file: File,
+  options: ReadFileOptions,
+) => Promise<string>;
+
+export interface IPath {
+  isAbsolute(path: string): boolean;
+  join(...paths: string[]): string;
 }
