@@ -7,6 +7,7 @@ export interface IMainDeps {
   logger: types.Logger;
   process: types.Process;
   readFile: types.ReadFile;
+  path: types.IPath;
 }
 
 interface IExitDeps {
@@ -19,7 +20,7 @@ const exitWithFatalError = (deps: IExitDeps) => (error: any) => {
   return deps.process.exit(1);
 };
 
-export const main = ({ express, logger, process, readFile }: IMainDeps) =>
-  getConfig({ process, readFile })
+export const main = ({ express, logger, path, process, readFile }: IMainDeps) =>
+  getConfig({ path, process, readFile })
     .then(startServer({ express, logger }))
     .catch(exitWithFatalError({ logger, process }));

@@ -1,6 +1,4 @@
-import path from 'path';
-
-import { IProcessArgv, IProcessCwd, ReadFile } from '../deps.type';
+import * as types from '../deps.type';
 
 export interface IConfig {
   port: number;
@@ -27,9 +25,9 @@ export const getConfigFilePathFormArgv = (argv: Argv) => {
   return configFilePathList[0];
 };
 
-export const getAbsoluteConfigPath = (directory: string) => (
-  filePath: string,
-) => {
+export const getAbsoluteConfigPath = (path: types.IPath) => (
+  directory: string,
+) => (filePath: string) => {
   if (!filePath) {
     throw new Error(`invalid path: ${filePath}`);
   }
@@ -46,22 +44,21 @@ export const validateConfigObject = (maybeConfig: IMaybeConfig) => {
   return maybeConfig as IConfig;
 };
 
-export const getConfigFromJSONFile = (readFile: ReadFile) => (
+export const getConfigFromJSONFile = (readFile: types.ReadFile) => (
   filePath: string,
 ) =>
   readFile(filePath, 'utf-8')
     .then(JSON.parse)
     .then(validateConfigObject);
 
-type Process = IProcessArgv & IProcessCwd;
-
 interface IGetConfigDeps {
-  process: Process;
-  readFile: ReadFile;
+  process: types.IProcessArgv & types.IProcessCwd;
+  readFile: types.ReadFile;
+  path: types.IPath;
 }
-export const getConfig = ({ process, readFile }: IGetConfigDeps) =>
+export const getConfig = ({ path, process, readFile }: IGetConfigDeps) =>
   getConfigFromJSONFile(readFile)(
-    getAbsoluteConfigPath(process.cwd())(
+    getAbsoluteConfigPath(path)(process.cwd())(
       getConfigFilePathFormArgv(process.argv),
     ),
   );

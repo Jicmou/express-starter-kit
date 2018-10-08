@@ -1,4 +1,5 @@
 import tape from 'tape';
+import path from 'path';
 
 import * as testedModule from './config';
 
@@ -98,7 +99,7 @@ tape(
 `,
   (test: tape.Test) => {
     test.throws(
-      () => testedModule.getAbsoluteConfigPath('/foo')(''),
+      () => testedModule.getAbsoluteConfigPath(path)('/foo')(''),
       'THEN it SHOULD throw an error',
     );
     test.end();
@@ -112,7 +113,7 @@ tape(
 `,
   (test: tape.Test) => {
     test.equals(
-      testedModule.getAbsoluteConfigPath('/foo')('/bar/baz.json'),
+      testedModule.getAbsoluteConfigPath(path)('/foo')('/bar/baz.json'),
       '/bar/baz.json',
       'THEN it SHOULD return the absolute file path as is.',
     );
@@ -127,7 +128,7 @@ tape(
 `,
   (test: tape.Test) => {
     test.equals(
-      testedModule.getAbsoluteConfigPath('/foo')('baz.json'),
+      testedModule.getAbsoluteConfigPath(path)('/foo')('baz.json'),
       '/foo/baz.json',
       'THEN it SHOULD join the directory path with the file name.',
     );
@@ -142,7 +143,7 @@ tape(
 `,
   (test: tape.Test) => {
     test.throws(
-      () => testedModule.getAbsoluteConfigPath('foo')('baz.json'),
+      () => testedModule.getAbsoluteConfigPath(path)('foo')('baz.json'),
       'THEN it SHOULD throw an error',
     );
     test.end();
@@ -156,7 +157,7 @@ tape(
 `,
   (test: tape.Test) => {
     test.equals(
-      testedModule.getAbsoluteConfigPath('/foo/bar')('../baz.json'),
+      testedModule.getAbsoluteConfigPath(path)('/foo/bar')('../baz.json'),
       '/foo/baz.json',
       'THEN it SHOULD join the directory path with the file name.',
     );

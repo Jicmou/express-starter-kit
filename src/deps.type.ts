@@ -52,3 +52,8 @@ export type ReadFile = (
   file: File,
   options: ReadFileOptions,
 ) => Promise<string>;
+
+export interface IPath {
+  isAbsolute(path: string): boolean;
+  join(...paths: string[]): string;
+}
