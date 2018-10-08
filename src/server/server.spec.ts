@@ -7,6 +7,9 @@ import * as testedModule from './server';
 const closeServer = (server: http.Server) =>
   new Promise<http.Server>(resolve => server.close(() => resolve(server)));
 
+// tslint:disable-next-line:no-empty
+const MOCK_LOG = /* istanbul ignore next */ () => {};
+
 tape(
   `server.ts: startServer()
   GIVEN an express app
@@ -16,8 +19,7 @@ tape(
       .startServer({
         express: express(),
         logger: {
-          // tslint:disable-next-line:no-empty
-          log: () => {},
+          log: MOCK_LOG,
         },
       })({
         host: 'localhost',

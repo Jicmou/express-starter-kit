@@ -1,4 +1,5 @@
 import { Server } from 'http';
+import { AddressInfo } from 'net';
 
 type Argv = string[];
 type Exit = (code?: number) => never;
@@ -28,6 +29,10 @@ export interface ILogLogger {
 }
 
 export type Logger = IErrorLogger & ILogLogger;
+
+export interface IServerAddress {
+  address: () => AddressInfo | string;
+}
 
 export type ListenServer = (
   port: number,

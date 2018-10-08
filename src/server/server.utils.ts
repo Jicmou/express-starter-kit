@@ -1,9 +1,8 @@
 import { AddressInfo } from 'net';
-import { ILogLogger } from '../deps.type';
 
-const getServerAdressAsString = (server: {
-  address: () => AddressInfo | string;
-}) => {
+import { ILogLogger, IServerAddress } from '../deps.type';
+
+export const getServerAdressAsString = (server: IServerAddress) => {
   const serverAdress = server.address();
   return (serverAdress as AddressInfo).address
     ? `http://${(serverAdress as AddressInfo).address}:${
@@ -12,8 +11,8 @@ const getServerAdressAsString = (server: {
     : (serverAdress as string);
 };
 
-export const logSuccessListening = (logger: ILogLogger) => (server: {
-  address: () => AddressInfo | string;
-}) => {
+export const logSuccessListening = (logger: ILogLogger) => (
+  server: IServerAddress,
+) => {
   logger.log(`server listening on ${getServerAdressAsString(server)}`);
 };
