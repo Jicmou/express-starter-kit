@@ -22,6 +22,6 @@ export const startServer = ({ express, logger }: IStartServerDeps) => (
   config: IConfig,
 ) =>
   createServer(express)(config).then(server => {
-    logSuccessListening(logger);
+    logSuccessListening(logger)(server);
     return server;
   });

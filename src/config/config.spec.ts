@@ -1,6 +1,6 @@
 import path from 'path';
 import tape from 'tape';
-import { readFile } from 'mz/fs';
+import { readFile } from '../utils/fs';
 
 import * as types from '../deps.type';
 

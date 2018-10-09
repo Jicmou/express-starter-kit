@@ -1,4 +1,5 @@
 import * as types from '../deps.type';
+import { ReadFile } from '../utils/fs';
 
 export interface IConfig {
   port: number;
@@ -44,16 +45,16 @@ export const validateConfigObject = (maybeConfig: IMaybeConfig) => {
   return maybeConfig as IConfig;
 };
 
-export const getConfigFromJSONFile = (readFile: types.ReadFile) => (
+export const getConfigFromJSONFile = (readFile: ReadFile) => (
   filePath: string,
 ) =>
-  readFile(filePath, 'utf-8')
+  readFile(filePath)
     .then(JSON.parse)
     .then(validateConfigObject);
 
 interface IGetConfigDeps {
   process: types.IProcessArgv & types.IProcessCwd;
-  readFile: types.ReadFile;
+  readFile: ReadFile;
   path: types.IPath;
 }
 export const getConfig = ({ path, process, readFile }: IGetConfigDeps) =>
