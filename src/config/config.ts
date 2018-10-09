@@ -47,7 +47,7 @@ export const validateConfigObject = (maybeConfig: IMaybeConfig) => {
 export const getConfigFromJSONFile = (readFile: types.ReadFile) => (
   filePath: string,
 ) =>
-  readFile(filePath, 'utf-8')
+  readFile(filePath)
     .then(JSON.parse)
     .then(validateConfigObject);
 
