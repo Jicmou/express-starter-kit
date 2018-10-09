@@ -44,8 +44,6 @@ export interface IExpress {
   listen: ListenServer;
 }
 
-export type ReadFile = (path: string) => Promise<string>;
-
 export interface IPath {
   isAbsolute(path: string): boolean;
   join(...paths: string[]): string;

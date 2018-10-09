@@ -1,4 +1,5 @@
 import * as types from './deps.type';
+import { ReadFile } from './utils/fs';
 import { getConfig } from './config/config';
 import { startServer } from './server/server';
 
@@ -6,7 +7,7 @@ export interface IMainDeps {
   express: types.IExpress;
   logger: types.Logger;
   process: types.Process;
-  readFile: types.ReadFile;
+  readFile: ReadFile;
   path: types.IPath;
 }
 
