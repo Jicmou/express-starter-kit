@@ -2,7 +2,7 @@ enum EExpressRequestMethod {
   ALL = 'all',
   CHECKOUT = 'checkout',
   COPY = 'copy',
-  DELETE = 'del',
+  DELETE = 'delete',
   GET = 'get',
   HEAD = 'head',
   LOCK = 'lock',
