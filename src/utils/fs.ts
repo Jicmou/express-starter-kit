@@ -9,15 +9,13 @@ export type FsReadFile = (
   callback: FsReadFileCallBack,
 ) => void;
 
-export interface IFs {
-  readFile: FsReadFile;
-}
-
 export type ReadFile = (path: string) => Promise<string>;
 
-export const readFile = (fs: IFs) => (path: string) => {
+export const readFileFactory: (fsReadFile: FsReadFile) => ReadFile = (
+  fsReadFile: FsReadFile,
+) => (path: string) => {
   return new Promise<string>((resolve, reject) =>
-    fs.readFile(path, { encoding: 'utf-8' }, (error, result) => {
+    fsReadFile(path, { encoding: 'utf-8' }, (error, result) => {
       if (error) {
         reject(error);
       }

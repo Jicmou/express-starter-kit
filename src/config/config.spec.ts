@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import tape from 'tape';
-import { readFile, ReadFile } from '../utils/fs';
+import { readFileFactory, ReadFile } from '../utils/fs';
 
 import * as types from '../deps.type';
 
@@ -223,7 +223,7 @@ tape(
   GIVEN a wrong filePath`,
   (test: tape.Test) => {
     return testedModule
-      .getConfigFromJSONFile(readFile(fs))('foo.json')
+      .getConfigFromJSONFile(readFileFactory(fs.readFile))('foo.json')
       .catch((error: any) => {
         test.assert(error, 'THEN it SHOULD eventually throw an error');
         test.end();

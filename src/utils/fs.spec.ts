@@ -1,42 +1,22 @@
 import tape from 'tape';
 
+import {
+  mockReadFileErrorFactory,
+  mockReadFileSuccessFactory,
+} from '../testing/readFile.mock';
+
 import * as testedModule from './fs';
 
-const mockError: NodeJS.ErrnoException = {
-  message: 'foo',
-  name: 'bar',
-};
-
-const mockReadFileError: testedModule.FsReadFile = (
-  _path: string,
-  _options: { encoding: string; flag?: string },
-  callBack: testedModule.FsReadFileCallBack,
-) => {
-  callBack(
-    {
-      message: 'foo',
-      name: 'bar',
-    },
-    undefined,
-  );
-};
-
-const mockFileContent = 'foo';
-
-const mockReadFileSuccess: testedModule.FsReadFile = (
-  _path: string,
-  _options: { encoding: string; flag?: string },
-  callBack: testedModule.FsReadFileCallBack,
-) => {
-  callBack(undefined, mockFileContent);
-};
-
 tape(
-  `fs.ts: readFile()
+  `fs.ts: readFileFactory()
   GIVEN a wrong path`,
   (test: tape.Test) => {
+    const mockError: NodeJS.ErrnoException = {
+      message: 'foo',
+      name: 'bar',
+    };
     return testedModule
-      .readFile({ readFile: mockReadFileError })('foo')
+      .readFileFactory(mockReadFileErrorFactory(mockError))('foo')
       .catch((error: NodeJS.ErrnoException) => {
         test.deepEquals(
           error,
@@ -49,11 +29,12 @@ tape(
 );
 
 tape(
-  `fs.ts: readFile()
+  `fs.ts: readFileFactory()
   GIVEN a valid path`,
   (test: tape.Test) => {
+    const mockFileContent = 'foo';
     return testedModule
-      .readFile({ readFile: mockReadFileSuccess })('foo')
+      .readFileFactory(mockReadFileSuccessFactory(mockFileContent))('foo')
       .then((fileContent: string) => {
         test.equals(
           fileContent,

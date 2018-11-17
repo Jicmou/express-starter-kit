@@ -1,13 +1,14 @@
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
+
 import { main } from './main';
-import { readFile } from './utils/fs';
+import { readFileFactory } from './utils/fs';
 
 main({
   express: express(),
   logger: console,
   path,
   process,
-  readFile: readFile(fs),
+  readFile: readFileFactory(fs.readFile),
 });
