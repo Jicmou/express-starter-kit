@@ -1,6 +1,7 @@
+import fs from 'fs';
 import path from 'path';
 import tape from 'tape';
-import { readFile } from '../utils/fs';
+import { readFileFactory, ReadFile } from '../utils/fs';
 
 import * as types from '../deps.type';
 
@@ -222,7 +223,7 @@ tape(
   GIVEN a wrong filePath`,
   (test: tape.Test) => {
     return testedModule
-      .getConfigFromJSONFile(readFile)('foo.json')
+      .getConfigFromJSONFile(readFileFactory(fs.readFile))('foo.json')
       .catch((error: any) => {
         test.assert(error, 'THEN it SHOULD eventually throw an error');
         test.end();
@@ -238,7 +239,8 @@ tape(
       host: 'foo',
       port: 1234,
     };
-    const mockReadFile = () => Promise.resolve(JSON.stringify(mockConfig));
+    const mockReadFile: ReadFile = () =>
+      Promise.resolve(JSON.stringify(mockConfig));
     return testedModule
       .getConfigFromJSONFile(mockReadFile)('foo.json')
       .then(fileContent => {
