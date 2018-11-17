@@ -1,5 +1,5 @@
-enum EAPIEndpoint {
+enum EAPIEndPoint {
   ROOT = '/',
 }
 
-export default EAPIEndpoint;
+export default EAPIEndPoint;

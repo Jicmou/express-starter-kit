@@ -1,6 +1,8 @@
 import { Server } from 'http';
 import { AddressInfo } from 'net';
 
+import { IRouterMatcherDictionnary } from './router/router.type';
+
 type Argv = string[];
 type Exit = (code?: number) => never;
 type Cwd = () => string;
@@ -40,7 +42,7 @@ export type ListenServer = (
   callback?: (error: any) => void,
 ) => Server;
 
-export interface IExpress {
+export interface IExpress extends IRouterMatcherDictionnary {
   listen: ListenServer;
 }
 
