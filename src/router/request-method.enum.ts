@@ -1,4 +1,4 @@
-export enum EExpressRequestMethod {
+enum EExpressRequestMethod {
   ALL = 'all',
   CHECKOUT = 'checkout',
   COPY = 'copy',
@@ -24,3 +24,5 @@ export enum EExpressRequestMethod {
   UNLOCK = 'unlock',
   UNSUBSCRIBE = 'unsubscribe',
 }
+
+export default EExpressRequestMethod;
