@@ -1,4 +1,5 @@
 export enum EExpressRequestMethod {
+  ALL = 'all',
   CHECKOUT = 'checkout',
   COPY = 'copy',
   DELETE = 'del',
