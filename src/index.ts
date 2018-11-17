@@ -1,4 +1,5 @@
 import express from 'express';
+import fs from 'fs';
 import path from 'path';
 import { main } from './main';
 import { readFile } from './utils/fs';
@@ -8,5 +9,5 @@ main({
   logger: console,
   path,
   process,
-  readFile,
+  readFile: readFile(fs),
 });
