@@ -1,3 +1,5 @@
-export enum EAppAPIEndpoint {
+enum EAPIEndpoint {
   ROOT = '/',
 }
+
+export default EAPIEndpoint;
