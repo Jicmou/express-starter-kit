@@ -52,7 +52,7 @@ export const getConfigFromJSONFile = (readFile: ReadFile) => (
     .then(JSON.parse)
     .then(validateConfigObject);
 
-interface IGetConfigDeps {
+export interface IGetConfigDeps {
   process: types.IProcessArgv & types.IProcessCwd;
   readFile: ReadFile;
   path: types.IPath;

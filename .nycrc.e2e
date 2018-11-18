@@ -1,0 +1,13 @@
+{
+  "check-coverage": true,
+  "per-file": false,
+  "lines": 89,
+  "statements": 90,
+  "functions": 87,
+  "branches": 60,
+  "reporter": [
+    "html",
+    "lcov",
+    "text-summary"
+  ]
+}

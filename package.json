@@ -5,17 +5,21 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist",
-    "launch": "node dist/index.js --config environment-template.json",
+    "launch": "node dist/src/index.js --config environment-template.json",
     "lint": "tslint --config ./tslint.json --project ./tsconfig.json && tsc",
-    "nyc": "nyc npm run tape",
+    "nyc:unit": "nyc --nycrc-path .nycrc.unit npm run tape:unit",
+    "nyc:e2e": "nyc --nycrc-path .nycrc.e2e npm run tape:e2e",
     "ok": "echo All good !",
     "prestart": "npm run clean",
     "pretest": "npm run clean",
     "start": "npm run lint && npm run launch",
     "start:watch": "chokidar src/**/*.ts --initial -c 'npm run start'",
-    "tape": "tape ./dist/**/*.spec.js | tap-spec",
-    "test": "npm run lint && npm run nyc && npm run ok",
-    "tdd": "chokidar src/**/*.ts --initial -c 'npm run test'"
+    "tape:unit": "tape ./dist/**/*.spec.js | tap-spec",
+    "tape:e2e": "tape ./dist/e2e/**/*.e2e.js | tap-spec",
+    "test": "npm run lint && npm run nyc:unit && npm run nyc:e2e && npm run ok",
+    "test:unit": "npm run lint && npm run nyc:unit && npm run ok",
+    "test:e2e": "npm run lint && npm run nyc:e2e && npm run ok",
+    "tdd": "chokidar src/**/*.ts --initial -c 'npm run test:unit'"
   },
   "keywords": [
     "scrum",
@@ -24,13 +28,17 @@
   "author": "Jicmou",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "3.5.3",
     "express": "4.16.3"
   },
   "devDependencies": {
+    "@types/bluebird": "3.5.24",
     "@types/express": "4.16.0",
+    "@types/request": "2.48.1",
     "@types/tape": "4.2.32",
     "chokidar-cli": "1.2.1",
     "nyc": "13.0.1",
+    "request": "2.88.0",
     "tap-spec": "5.0.0",
     "tape": "4.9.1",
     "tslint": "5.11.0",
