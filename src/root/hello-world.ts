@@ -1,5 +1,6 @@
 export interface IHelloWorldResponse {
-  send: (statusCode: number, body: string) => void;
+  status: (statusCode: number) => IHelloWorldResponse;
+  send: (body: string) => IHelloWorldResponse;
 }
 
 export const HELLO_WORLD = 'Hello, world!';
@@ -9,5 +10,5 @@ export const greetWorld = (
   response: IHelloWorldResponse,
   _next: () => void,
 ) => {
-  response.send(200, HELLO_WORLD);
+  response.status(200).send(HELLO_WORLD);
 };
