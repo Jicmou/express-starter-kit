@@ -1,7 +1,7 @@
 import tape from 'tape';
 
 import { HELLO_WORLD } from '../src/root/hello-world';
-import { runE2ETest, MAIN_ARGS } from './test-wrapper';
+import { runE2ETest, MAIN_ARGS, crashE2ETest } from './test-wrapper';
 import { getPromisified } from './request-utils';
 import { getConfig, IGetConfigDeps } from '../src/config/config';
 
@@ -13,6 +13,13 @@ const CONFIG_DEPS: IGetConfigDeps = {
 
 const getServerUrlFromConfig = (configDeps: IGetConfigDeps) =>
   getConfig(configDeps).then(config => `http://${config.host}:${config.port}/`);
+
+tape(`Server crashes properly: `, (t: tape.Test) =>
+  crashE2ETest().then(() => {
+    t.pass('SHOULD end properly');
+    t.end();
+  }),
+);
 
 tape(`Server launches: `, (t: tape.Test) =>
   runE2ETest(t)(test => {

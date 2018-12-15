@@ -1,7 +1,8 @@
-import * as types from './deps.type';
-import { ReadFile } from './utils/fs';
-import { getConfig } from './config/config';
-import { startServer } from './server/server';
+import bluebird from 'bluebird';
+import * as types from '../deps.type';
+import { ReadFile } from '../utils/fs';
+import { getConfig } from '../config/config';
+import { startServer } from '../server/server';
 
 export interface IMainDeps {
   express: types.IExpress;
@@ -22,6 +23,7 @@ const exitWithFatalError = (deps: IExitDeps) => (error: any) => {
 };
 
 export const main = ({ express, logger, path, process, readFile }: IMainDeps) =>
-  getConfig({ path, process, readFile })
+  bluebird
+    .try(() => getConfig({ path, process, readFile }))
     .then(startServer({ express, logger }))
     .catch(exitWithFatalError({ logger, process }));

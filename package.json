@@ -10,20 +10,25 @@
     "nyc:e2e": "nyc --nycrc-path .nycrc.e2e npm run tape:e2e",
     "ok": "echo All good !",
     "prestart": "npm run clean",
-    "pretest": "npm run clean",
     "start": "npm run lint && npm run launch",
     "start:watch": "chokidar src/**/*.ts --initial -c 'npm run start'",
     "tape:unit": "tape ./dist/**/*.spec.js | tap-spec",
     "tape:e2e": "tape ./dist/e2e/**/*.e2e.js | tap-spec",
+    "pretest": "npm run clean",
     "test": "npm run lint && npm run nyc:unit && npm run nyc:e2e && npm run ok",
+    "pretest:unit": "npm run clean",
     "test:unit": "npm run lint && npm run nyc:unit && npm run ok",
+    "pretest:e2e": "npm run clean",
     "test:e2e": "npm run lint && npm run nyc:e2e && npm run ok",
-    "tdd": "chokidar src/**/*.ts --initial -c 'npm run test:unit'"
+    "tdd": "chokidar ./**/*.ts --initial -c 'npm run test'",
+    "tdd:unit": "chokidar src/**/*.ts --initial -c 'npm run test:unit'",
+    "tdd:e2e": "chokidar e2e/**/*.ts --initial -c 'npm run test:e2e'"
   },
   "keywords": [
-    "starter-kit",
     "express",
-    "functional-programming"
+    "functional-programming",
+    "starter-kit",
+    "typescript"
   ],
   "author": "Jicmou",
   "license": "ISC",
