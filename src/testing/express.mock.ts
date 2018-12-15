@@ -2,7 +2,17 @@ import EExpressRequestMethod from '../router/request-method.enum';
 import FUNCTION_STUB from './function.stub';
 import { IExpress } from '../deps.type';
 
-const EXPRESS_APP_STUB: IExpress = {
+/* istanbul ignore next */
+const baseExpressApp = (request: any, response: any) => {
+  if (!request) {
+    throw new Error('lol');
+  }
+  if (!response) {
+    throw new Error('lol');
+  }
+};
+
+const EXPRESS_APP_STUB: IExpress = Object.assign(baseExpressApp, {
   [EExpressRequestMethod.ALL]: FUNCTION_STUB,
   [EExpressRequestMethod.CHECKOUT]: FUNCTION_STUB,
   [EExpressRequestMethod.COPY]: FUNCTION_STUB,
@@ -28,6 +38,6 @@ const EXPRESS_APP_STUB: IExpress = {
   [EExpressRequestMethod.UNLOCK]: FUNCTION_STUB,
   [EExpressRequestMethod.UNSUBSCRIBE]: FUNCTION_STUB,
   listen: FUNCTION_STUB as any,
-};
+});
 
 export default EXPRESS_APP_STUB;
