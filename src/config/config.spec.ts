@@ -223,7 +223,7 @@ tape(
   GIVEN a wrong filePath`,
   (test: tape.Test) => {
     return testedModule
-      .getConfigFromJSONFile(readFileFactory(fs.readFile))('foo.json')
+      .getConfigFromJSONFile(readFileFactory(fs.readFile as any))('foo.json')
       .catch((error: any) => {
         test.assert(error, 'THEN it SHOULD eventually throw an error');
         test.end();

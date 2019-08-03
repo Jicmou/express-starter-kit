@@ -21,7 +21,7 @@ export const MAIN_ARGS: IMainDeps = {
     cwd: process.cwd,
     exit: process.exit,
   },
-  readFile: readFileFactory(fs.readFile),
+  readFile: readFileFactory(fs.readFile as any),
 };
 
 export const runE2ETest = (test: tape.Test) => (testCase: tape.TestCase) =>

@@ -10,5 +10,5 @@ main({
   logger: console,
   path,
   process,
-  readFile: readFileFactory(fs.readFile),
+  readFile: readFileFactory(fs.readFile as any),
 });
