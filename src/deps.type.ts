@@ -27,7 +27,7 @@ export interface ILogLogger {
 export type Logger = IErrorLogger & ILogLogger;
 
 export interface IServerAddress {
-  address: () => AddressInfo | string;
+  address: () => AddressInfo;
 }
 
 export type ListenServer = (
