@@ -23,18 +23,8 @@ npm start
 the `start` npm script runs the following command:
 
 ```bash
-node dist/src/index.js --config environment-template.json
+node dist/src/index.js
 ```
-
-the `--config` flag is used to pass a `json` file containing the config. you are free to pass the config you want, provided the content follows the same schema as the given template.
-
-Just run:
-
-```bash
-node dist/src/index.js --config <YOUR_CONFIG_FILE>
-```
-
-WARNING: the config file is mandatory for the app to run. There is no default config.
 
 ## Test
 
