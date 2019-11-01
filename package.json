@@ -31,7 +31,7 @@
     "typescript"
   ],
   "author": "Jicmou",
-  "license": "ISC",
+  "license": "WTFPL",
   "dependencies": {
     "bluebird": "3.5.5",
     "express": "4.17.1"
