@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Jicmou/express-starter-kit.svg?branch=master)](https://travis-ci.org/Jicmou/express-starter-kit)
+[![code coverage](https://codecov.io/gh/Jicmou/express-starter-kit/branch/master/graph/badge.svg)](https://codecov.io/gh/Jicmou/express-starter-kit)
 
 # Express Starter Kit
 
