@@ -3,12 +3,10 @@ import { AddressInfo } from 'net';
 import { ILogLogger, IServerAddress } from '../deps.type';
 
 export const getServerAdressAsString = (server: IServerAddress) => {
-  const serverAdress = server.address();
-  return (serverAdress as AddressInfo).address
-    ? `http://${(serverAdress as AddressInfo).address}:${
-        (serverAdress as AddressInfo).port
-      }/`
-    : (serverAdress as string);
+  const serverAddress = server.address();
+  return `http://${(serverAddress as AddressInfo).address}:${
+    (serverAddress as AddressInfo).port
+  }/`;
 };
 
 export const logSuccessListening = (logger: ILogLogger) => (

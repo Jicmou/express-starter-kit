@@ -26,22 +26,6 @@ tape(
 );
 
 tape(
-  `server.utils.ts getServerAdressAsString()
-  GIVEN an address as a string`,
-  (test: tape.Test) => {
-    const mockAddress = 'foo';
-    test.equals(
-      testedModule.getServerAdressAsString({
-        address: () => mockAddress,
-      }),
-      mockAddress,
-      'THEN it SHOULD return the server address as string',
-    );
-    test.end();
-  },
-);
-
-tape(
   `server.utils.ts logSuccessListening()
   GIVEN an address as a string`,
   (test: tape.Test) => {
@@ -51,8 +35,13 @@ tape(
         test.end();
       },
     };
+    const mockAddressInfo: AddressInfo = {
+      address: '127.0.0.1',
+      family: 'ipv4',
+      port: 3000,
+    };
     const mockAddress: IServerAddress = {
-      address: () => 'foo',
+      address: () => mockAddressInfo,
     };
     testedModule.logSuccessListening(mockLog)(mockAddress);
   },
