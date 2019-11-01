@@ -1,282 +1,114 @@
-import fs from 'fs';
-import path from 'path';
 import tape from 'tape';
-import { readFileFactory, ReadFile } from '../utils/fs';
 
 import * as types from '../deps.type';
 
 import * as testedModule from './config';
 
 tape(
-  `config.ts: getConfigFilePathFormArgv(),
-  GIVEN a list of arguments,
-  AND no --config flag in that list
-`,
+  `config.ts getConfigFromEnv()
+  GIVEN no env variable`,
   (test: tape.Test) => {
-    const argv: testedModule.Argv = ['foo', 'bar'];
-    test.throws(
-      () => testedModule.getConfigFilePathFormArgv(argv),
-      'THEN it SHOULD throw an error',
-    );
-    test.end();
+    return testedModule.getConfigFromEnv({}).then(actualConfig => {
+      test.deepEquals(
+        actualConfig,
+        testedModule.DEFAULT_CONFIG,
+        'THEN it should return the default config',
+      );
+      test.end();
+    });
   },
 );
 
 tape(
-  `config.ts: getConfigFilePathFormArgv(),
-  GIVEN a list of arguments,
-  AND a --config flag in that list
-  AND no value for that flag
-`,
+  `config.ts getConfigFromEnv()
+  GIVEN a host AND no port`,
   (test: tape.Test) => {
-    const argv: testedModule.Argv = ['foo', 'bar', '--config'];
-    test.throws(
-      () => testedModule.getConfigFilePathFormArgv(argv),
-      'THEN it SHOULD throw an error',
-    );
-    test.end();
-  },
-);
-
-tape(
-  `config.ts: getConfigFilePathFormArgv(),
-  GIVEN a list of arguments,
-  AND a --config flag in that list
-  AND an invalid value for that flag
-`,
-  (test: tape.Test) => {
-    const argv: testedModule.Argv = ['foo', 'bar', '--config', 'foo'];
-    test.throws(
-      () => testedModule.getConfigFilePathFormArgv(argv),
-      'THEN it SHOULD throw an error',
-    );
-    test.end();
-  },
-);
-
-tape(
-  `config.ts: getConfigFilePathFormArgv(),
-  GIVEN a list of arguments,
-  AND a --config flag in that list
-  AND a valid value for that flag
-`,
-  (test: tape.Test) => {
-    const validValue = 'foo.json';
-    const argv: testedModule.Argv = ['foo', 'bar', '--config', validValue];
-    test.equals(
-      testedModule.getConfigFilePathFormArgv(argv),
-      validValue,
-      'THEN it SHOULD return the GIVEN file path',
-    );
-    test.end();
-  },
-);
-
-tape(
-  `config.ts: getConfigFilePathFormArgv(),
-  GIVEN a list of arguments,
-  AND 2 --config flags in that list
-  AND a valid value for each flag
-`,
-  (test: tape.Test) => {
-    const validValue = 'foo.json';
-    const argv: testedModule.Argv = [
-      'foo',
-      'bar',
-      '--config',
-      validValue,
-      '--config',
-      validValue,
-    ];
-    test.throws(
-      () => testedModule.getConfigFilePathFormArgv(argv),
-      'THEN it SHOULD throw an error',
-    );
-    test.end();
-  },
-);
-
-tape(
-  `config.ts: getAbsoluteConfigPath(),
-  GIVEN an absolute directory path
-  AND an empty string as file path
-`,
-  (test: tape.Test) => {
-    test.throws(
-      () => testedModule.getAbsoluteConfigPath(path)('/foo')(''),
-      'THEN it SHOULD throw an error',
-    );
-    test.end();
-  },
-);
-
-tape(
-  `config.ts: getAbsoluteConfigPath(),
-  GIVEN an absolute directory path
-  AND an absolute file path
-`,
-  (test: tape.Test) => {
-    test.equals(
-      testedModule.getAbsoluteConfigPath(path)('/foo')('/bar/baz.json'),
-      '/bar/baz.json',
-      'THEN it SHOULD return the absolute file path as is.',
-    );
-    test.end();
-  },
-);
-
-tape(
-  `config.ts: getAbsoluteConfigPath(),
-  GIVEN an absolute directory path
-  AND a file name
-`,
-  (test: tape.Test) => {
-    test.equals(
-      testedModule.getAbsoluteConfigPath(path)('/foo')('baz.json'),
-      '/foo/baz.json',
-      'THEN it SHOULD join the directory path with the file name.',
-    );
-    test.end();
-  },
-);
-
-tape(
-  `config.ts: getAbsoluteConfigPath(),
-  GIVEN a relative directory path
-  AND a file name
-`,
-  (test: tape.Test) => {
-    test.throws(
-      () => testedModule.getAbsoluteConfigPath(path)('foo')('baz.json'),
-      'THEN it SHOULD throw an error',
-    );
-    test.end();
-  },
-);
-
-tape(
-  `config.ts: getAbsoluteConfigPath(),
-  GIVEN an absolute directory path
-  AND a relative file path
-`,
-  (test: tape.Test) => {
-    test.equals(
-      testedModule.getAbsoluteConfigPath(path)('/foo/bar')('../baz.json'),
-      '/foo/baz.json',
-      'THEN it SHOULD join the directory path with the file name.',
-    );
-    test.end();
-  },
-);
-
-tape(
-  `config.ts: validateConfigObject(),
-GIVEN an empty object
-`,
-  (test: tape.Test) => {
-    test.throws(
-      () => testedModule.validateConfigObject({}),
-      'THEN it SHOULD throw an error',
-    );
-    test.end();
-  },
-);
-
-tape(
-  `config.ts: validateConfigObject(),
-GIVEN a config object
-AND host property is missing
-`,
-  (test: tape.Test) => {
-    test.throws(
-      () =>
-        testedModule.validateConfigObject({
-          port: 3000,
-        }),
-      'THEN it SHOULD throw an error',
-    );
-    test.end();
-  },
-);
-
-tape(
-  `config.ts: validateConfigObject(),
-GIVEN a config object
-AND all mandtory properties are present
-`,
-  (test: tape.Test) => {
-    const validConfig: testedModule.IConfig = {
-      host: 'foo',
-      port: 3000,
+    const HOST = 'foo';
+    const expectedConfig = {
+      ...testedModule.DEFAULT_CONFIG,
+      host: HOST,
     };
-    test.equals(
-      testedModule.validateConfigObject(validConfig),
-      validConfig,
-      'THEN it SHOULD return the config',
-    );
-    test.end();
+    return testedModule.getConfigFromEnv({ HOST }).then(actualConfig => {
+      test.deepEquals(
+        actualConfig,
+        expectedConfig,
+        'THEN it should return the host and other defaults',
+      );
+      test.end();
+    });
   },
 );
 
 tape(
-  `config.ts: getConfigFromJSONFile(),
-  GIVEN a wrong filePath`,
+  `config.ts getConfigFromEnv()
+  GIVEN a port AND no host`,
   (test: tape.Test) => {
-    return testedModule
-      .getConfigFromJSONFile(readFileFactory(fs.readFile as any))('foo.json')
-      .catch((error: any) => {
-        test.assert(error, 'THEN it SHOULD eventually throw an error');
-        test.end();
-      });
-  },
-);
-
-tape(
-  `config.ts: getConfigFromJSONFile(),
-  GIVEN a valid filePath`,
-  (test: tape.Test) => {
-    const mockConfig: testedModule.IConfig = {
-      host: 'foo',
-      port: 1234,
+    const PORT = 1234;
+    const expectedConfig = {
+      ...testedModule.DEFAULT_CONFIG,
+      port: PORT,
     };
-    const mockReadFile: ReadFile = () =>
-      Promise.resolve(JSON.stringify(mockConfig));
-    return testedModule
-      .getConfigFromJSONFile(mockReadFile)('foo.json')
-      .then(fileContent => {
-        test.deepEquals(
-          fileContent,
-          mockConfig,
-          'THEN it SHOULD eventually return the file content',
-        );
-        test.end();
-      });
+    return testedModule.getConfigFromEnv({ PORT }).then(actualConfig => {
+      test.deepEquals(
+        actualConfig,
+        expectedConfig,
+        'THEN it should return the port and other defaults',
+      );
+      test.end();
+    });
+  },
+);
+
+tape(
+  `config.ts getConfigFromEnv()
+  GIVEN a port AND a host`,
+  (test: tape.Test) => {
+    const HOST = 'foo';
+    const PORT = 1234;
+    const expectedConfig = {
+      ...testedModule.DEFAULT_CONFIG,
+      host: HOST,
+      port: PORT,
+    };
+    return testedModule.getConfigFromEnv({ HOST, PORT }).then(actualConfig => {
+      test.deepEquals(
+        actualConfig,
+        expectedConfig,
+        'THEN it should return the host, the port, and other defaults',
+      );
+      test.end();
+    });
   },
 );
 
 tape(
   `config.ts: getConfig(),
-  GIVEN a valid config filePath`,
+  GIVEN a compete env varialbles set`,
   (test: tape.Test) => {
-    const mockProcess: types.IProcessArgv & types.IProcessCwd = {
-      argv: ['node', 'index.js', '--config', 'foo.json'],
-      cwd: () => '/foo/bar',
+    const HOST = 'foo';
+    const PORT = 3000;
+    const env: types.IEnv = {
+      HOST,
+      PORT,
     };
-    const mockConfig: testedModule.IConfig = {
-      host: 'foo',
-      port: 1234,
+
+    const mockProcess: types.IProcessEnv = {
+      env,
     };
-    const mockReadFile = () => Promise.resolve(JSON.stringify(mockConfig));
+
+    const expectedConfig: testedModule.IConfig = {
+      host: HOST,
+      port: PORT,
+    };
+
     return testedModule
       .getConfig({
-        path,
         process: mockProcess,
-        readFile: mockReadFile,
       })
       .then(config => {
         test.deepEquals(
           config,
-          mockConfig,
+          expectedConfig,
           'THEN it SHOULD eventually return a config object',
         );
         test.end();

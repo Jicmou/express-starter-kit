@@ -3,22 +3,16 @@ import { AddressInfo } from 'net';
 
 import { IRouterMatcherDictionnary } from './router/router.type';
 
-type Argv = string[];
-type Exit = (code?: number) => never;
-type Cwd = () => string;
-
-export interface IProcessArgv {
-  argv: Argv;
-}
-export interface IProcessExit {
-  exit: Exit;
+export interface IEnv {
+  PORT?: number;
+  HOST?: string;
 }
 
-export interface IProcessCwd {
-  cwd: Cwd;
+export interface IProcessEnv {
+  env: IEnv;
 }
 
-export type Process = IProcessArgv & IProcessCwd & IProcessExit;
+export type Process = IProcessEnv;
 
 type LogError = (...error: any[]) => void;
 type Log = (...message: any[]) => void;
@@ -44,9 +38,4 @@ export type ListenServer = (
 
 export interface IExpress extends IRouterMatcherDictionnary {
   listen: ListenServer;
-}
-
-export interface IPath {
-  isAbsolute(path: string): boolean;
-  join(...paths: string[]): string;
 }

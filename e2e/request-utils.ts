@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { get, RequestResponse, post } from 'request';
 
 interface IHeaders {
