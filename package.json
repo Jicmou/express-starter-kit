@@ -4,7 +4,7 @@
   "description": "Starter kit for express-based projects",
   "scripts": {
     "clean": "rm -rf dist",
-    "launch": "node dist/src/index.js --config environment-template.json",
+    "launch": "node dist/src/index.js",
     "lint": "tslint --config ./tslint.json --project ./tsconfig.json && tsc",
     "nyc:unit": "nyc --nycrc-path .nycrc.unit npm run tape:unit",
     "nyc:e2e": "nyc --nycrc-path .nycrc.e2e npm run tape:e2e",
